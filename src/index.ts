@@ -125,7 +125,7 @@ client.on("interactionCreate", async (interaction) => {
       await interaction.deferReply(); // Defer reply while waiting for response
 
       // const answer = await requestWithBackoff(question, 3);
-      const answer = "HI"; // Placeholder for OpenAI response
+      const answer = "ควยไรสัส"; // Placeholder for OpenAI response
 
       cache.set(question, answer);
       await interaction.editReply(answer); // Reply with the answer
