@@ -4,7 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.21.0"
+    "@discordjs/rest": "^2.4.0",
+    "discord.js": "^14.16.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "openai": "^4.63.0"
   },
   "scripts": {
     "dev": "nodemon --watch src --exec ts-node src/index.ts",
