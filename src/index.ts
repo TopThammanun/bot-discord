@@ -75,12 +75,22 @@ client.once("ready", async () => {
   try {
     console.log("Started refreshing application (/) commands.");
 
-    const guildId = "895591032044015616";
-    await rest.put(Routes.applicationGuildCommands(client.user!.id, guildId), {
-      body: commands,
+    const guilds = await client.guilds.fetch(); // Fetch all guilds the bot is part of
+    guilds.forEach(async (guild) => {
+      const guildId = guild.id;
+      console.log(`Registering commands for guild: ${guildId}`);
+
+      await rest.put(
+        Routes.applicationGuildCommands(client.user!.id, guildId),
+        {
+          body: commands,
+        }
+      );
     });
 
-    console.log("Successfully reloaded application (/) commands.");
+    console.log(
+      "Successfully reloaded application (/) commands for all guilds."
+    );
   } catch (error) {
     console.error("Error refreshing commands:", error);
   }
@@ -92,6 +102,8 @@ client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return;
 
   const { commandName, options } = interaction;
+  const guildId = interaction.guildId; // Retrieve guildId from interaction
+  console.log(`Interaction received in guild: ${guildId}`);
 
   if (commandName === "manee") {
     const question = (options as CommandInteractionOptionResolver).getString(
@@ -113,7 +125,7 @@ client.on("interactionCreate", async (interaction) => {
       await interaction.deferReply(); // Defer reply while waiting for response
 
       // const answer = await requestWithBackoff(question, 3);
-      const answer = "HI";
+      const answer = "HI"; // Placeholder for OpenAI response
 
       cache.set(question, answer);
       await interaction.editReply(answer); // Reply with the answer
